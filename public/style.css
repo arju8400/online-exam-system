@@ -1,0 +1,45 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#eef1f6;color:#1f2937;user-select:auto}
+.hidden{display:none!important}.muted{color:#6b7280}.small{font-size:12px}.err{color:#dc2626}
+#topbar{background:#0f2a5c;color:#fff;padding:10px 24px;display:flex;justify-content:space-between;align-items:center}
+.brand span{font-size:12px;opacity:.75;margin-left:8px}
+#userbar{display:flex;gap:12px;align-items:center}
+.screen{min-height:calc(100vh - 48px)}.center{display:flex;align-items:center;justify-content:center}
+.container{max-width:900px;margin:24px auto;padding:0 16px}
+.panel{background:#fff;border-radius:6px;padding:22px;margin:16px 0;box-shadow:0 1px 3px #0002}
+.login-box{background:#fff;padding:32px;border-radius:8px;width:360px;box-shadow:0 4px 16px #0003;border-top:5px solid #0f2a5c}
+label{display:block;font-size:13px;margin:12px 0 4px;font-weight:600}
+input[type=text],input[type=password],input[type=number],input:not([type]),textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:4px}
+.btn{border:0;padding:9px 16px;border-radius:4px;cursor:pointer;font-size:14px;margin:4px 2px}
+.btn.primary{background:#0f2a5c;color:#fff}.btn.green{background:#16a34a;color:#fff}.btn.purple{background:#7c3aed;color:#fff}
+.btn.light{background:#e5e7eb;color:#111}.btn:disabled{opacity:.45;cursor:not-allowed}.wide{width:100%;margin-top:14px}
+table{width:100%;border-collapse:collapse;background:#fff}th{background:#0f2a5c;color:#fff;text-align:left}
+td,th{padding:8px 10px;border-bottom:1px solid #e5e7eb}
+.exam-item{background:#fff;border-left:5px solid #0f2a5c;padding:14px;margin:10px 0;border-radius:4px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px #0002}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;margin:10px 0}.legend.big{font-size:14px}
+.pal{display:inline-block;width:26px;height:26px;border-radius:5px;vertical-align:middle;margin-right:4px;border:1px solid #0002}
+.pal.nv{background:#e5e7eb}.pal.na{background:#ef4444}.pal.an{background:#22c55e}.pal.mr{background:#8b5cf6}
+.agree{font-weight:400;margin:16px 0}
+/* exam screen */
+.exam-head{background:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 24px;border-bottom:2px solid #0f2a5c}
+.timer-box{text-align:right;font-size:12px;color:#6b7280}#timer{font-size:26px;font-weight:700;color:#0f2a5c;font-variant-numeric:tabular-nums}
+#timer.low{color:#dc2626;animation:blink 1s infinite}@keyframes blink{50%{opacity:.35}}
+.warn{background:#fef2f2;color:#b91c1c;padding:8px 24px;font-weight:600;border-bottom:1px solid #fecaca}
+.exam-body{display:flex;gap:16px;padding:16px 24px;align-items:flex-start}
+.q-panel{flex:1;background:#fff;border-radius:6px;padding:20px;box-shadow:0 1px 3px #0002;min-height:420px;display:flex;flex-direction:column}
+.q-head{display:flex;justify-content:space-between;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#0f2a5c}
+.flag{background:#ede9fe;color:#6d28d9;padding:2px 10px;border-radius:12px;font-size:12px}
+.q-text{font-size:18px;margin:18px 0}
+.opt{display:flex;gap:10px;align-items:center;border:1px solid #d1d5db;border-radius:6px;padding:12px;margin:8px 0;cursor:pointer}
+.opt:hover{background:#f3f4f6}.opt.sel{border-color:#0f2a5c;background:#e8eefc}
+.q-actions{margin-top:auto;padding-top:16px;border-top:1px solid #e5e7eb;display:flex;flex-wrap:wrap;align-items:center}.spacer{flex:1}
+.side{width:280px;background:#fff;border-radius:6px;padding:14px;box-shadow:0 1px 3px #0002;position:sticky;top:12px}
+.cand{display:flex;gap:10px;align-items:center;border-bottom:1px solid #e5e7eb;padding-bottom:10px}.avatar{font-size:30px}
+#palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0 12px}
+.pbtn{height:38px;border:2px solid transparent;border-radius:6px;color:#fff;font-weight:700;cursor:pointer}
+.pbtn.nv{background:#e5e7eb;color:#111}.pbtn.na{background:#ef4444}.pbtn.an{background:#22c55e}.pbtn.mr{background:#8b5cf6}
+.pbtn.cur{border-color:#111;box-shadow:0 0 0 2px #0f2a5c55}
+.modal{position:fixed;inset:0;background:#0007;display:flex;align-items:center;justify-content:center;z-index:10}
+.modal-box{background:#fff;padding:24px;border-radius:8px;width:380px}
+.center-text{text-align:center}.big-score{font-size:48px;font-weight:700;color:#0f2a5c}.pass{color:#16a34a;font-weight:700}.fail{color:#dc2626;font-weight:700}
+@media(max-width:800px){.exam-body{flex-direction:column}.side{width:100%;position:static}}

@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    image: online-exam-system:latest
+    container_name: exam-app
+    ports:
+      - "3000:3000"
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - STUDENT_PASSWORD=${STUDENT_PASSWORD:-student123}
+      - DATA_FILE=/app/data/db.json
+    volumes:
+      - exam-data:/app/data
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+
+volumes:
+  exam-data:
