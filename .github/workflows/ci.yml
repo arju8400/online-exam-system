@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
+  # ---------------- CI: build + test ----------------
   build-test-docker:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +35,45 @@ jobs:
           sleep 5
           curl --fail http://localhost:3000/health
           docker rm -f exam
+
+  # ---------------- CD: publish image + deploy ----------------
+  deploy:
+    needs: build-test-docker
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image to GHCR
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+      - name: Trigger Render deployment
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "RENDER_DEPLOY_HOOK_URL secret is not set"; exit 1
+          fi
+          curl --fail -X POST "$RENDER_DEPLOY_HOOK_URL"
+
+      - name: Check live app is up
+        run: |
+          sleep 30
+          curl --fail --retry 12 --retry-delay 15 --retry-all-errors https://online-exam-system-kjef.onrender.com/healthcd
