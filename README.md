@@ -4,9 +4,9 @@ A working online exam portal (student + admin) built with **Node.js / Express**,
 
 | | |
 |---|---|
-| 🌐 **Live app** | https://online-exam-system-kjef.onrender.com/ |
+| 🌐 **Live app** | https://online-exam-system-1-jxz6.onrender.com/ |
 | 💻 **Source code** | https://github.com/arju8400/online-exam-system |
-| ❤️ **Health check** | https://online-exam-system-kjef.onrender.com/health |
+| ❤️ **Health check** | https://online-exam-system-1-jxz6.onrender.com/health |
 
 > ⏳ **Note:** The live app is on Render's **free plan**. It goes to sleep after ~15 minutes of no traffic, so the **first load can take about a minute**. Please wait and refresh.
 
@@ -540,7 +540,7 @@ git push
 | http://localhost:9090 | Prometheus |
 | http://localhost:9090/targets | Prometheus target health |
 | http://localhost:3001 | Grafana |
-| https://online-exam-system-kjef.onrender.com/ | **Live app** |
+| https://online-exam-system-1-jxz6.onrender.com/ | **Live app** |
 
 ---
 
