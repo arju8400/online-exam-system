@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Examination Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="topbar">
+  <div class="brand">🎓 <b>ExamPortal</b> <span>Online Examination System</span></div>
+  <div id="userbar" class="hidden"><span id="who"></span><button id="logout" class="btn light">Logout</button></div>
+</div>
+
+<!-- LOGIN -->
+<section id="login-view" class="screen center">
+  <div class="login-box">
+    <h2>Candidate Login</h2>
+    <p class="muted">Enter your credentials to access the examination portal</p>
+    <label>Username</label><input id="username" autocomplete="off">
+    <label>Password</label><input id="password" type="password">
+    <button id="login-btn" class="btn primary wide">Sign In</button>
+    <p id="login-err" class="err"></p>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="home-view" class="screen hidden">
+  <div class="container">
+    <h2>Scheduled Examinations</h2><div id="exam-list"></div>
+    <h2>Result History</h2><div id="results"></div>
+    <div id="admin-panel" class="hidden panel">
+      <h2>Admin: Create Examination</h2>
+      <input id="ex-title" placeholder="Exam title">
+      <input id="ex-duration" type="number" placeholder="Duration (minutes)">
+      <p class="muted small">Questions JSON: [{"q":"2+2?","options":["3","4"],"answer":1}]</p>
+      <textarea id="ex-questions" rows="5"></textarea>
+      <button id="create-exam" class="btn primary">Create Exam</button> <span id="admin-msg"></span>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTIONS -->
+<section id="instr-view" class="screen hidden">
+  <div class="container panel">
+    <h2 id="instr-title"></h2>
+    <p class="muted" id="instr-meta"></p>
+    <h3>General Instructions</h3>
+    <ol>
+      <li>The clock is set on the server. The countdown timer at the top right shows remaining time. The exam <b>auto-submits</b> when time ends.</li>
+      <li>The question palette on the right shows the status of each question:</li>
+    </ol>
+    <div class="legend big">
+      <span><i class="pal nv"></i> Not Visited</span><span><i class="pal na"></i> Not Answered</span>
+      <span><i class="pal an"></i> Answered</span><span><i class="pal mr"></i> Marked for Review</span>
+    </div>
+    <ol start="3">
+      <li>Select one option and click <b>Save &amp; Next</b> to save your answer.</li>
+      <li>Use <b>Mark for Review &amp; Next</b> to revisit a question later.</li>
+      <li>Do <b>not switch tabs or windows</b>. Every switch is recorded. After <b>3 violations</b> the exam is submitted automatically.</li>
+      <li>Right-click, copy and paste are disabled during the exam.</li>
+    </ol>
+    <label class="agree"><input type="checkbox" id="agree"> I have read and understood the instructions and agree to follow the exam rules.</label><br>
+    <button id="back-home" class="btn light">Back</button>
+    <button id="begin-btn" class="btn primary" disabled>Begin Exam</button>
+  </div>
+</section>
+
+<!-- EXAM -->
+<section id="exam-view" class="screen hidden">
+  <div class="exam-head">
+    <div><b id="exam-title"></b><div class="muted small" id="exam-sub"></div></div>
+    <div class="timer-box">Time Left<div id="timer">00:00</div></div>
+  </div>
+  <div id="warn" class="warn hidden"></div>
+  <div class="exam-body">
+    <div class="q-panel">
+      <div class="q-head"><b id="q-no"></b><span id="q-flag" class="flag hidden">Marked for Review</span></div>
+      <div id="q-text" class="q-text"></div>
+      <div id="q-options"></div>
+      <div class="q-actions">
+        <button id="btn-mark" class="btn purple">Mark for Review &amp; Next</button>
+        <button id="btn-clear" class="btn light">Clear Response</button>
+        <span class="spacer"></span>
+        <button id="btn-prev" class="btn light">&laquo; Previous</button>
+        <button id="btn-save" class="btn green">Save &amp; Next</button>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="cand"><div class="avatar">👤</div><div><b id="cand-name"></b><div class="muted small">Candidate</div></div></div>
+      <div class="legend">
+        <span><i class="pal nv"></i> Not Visited <b id="c-nv"></b></span>
+        <span><i class="pal na"></i> Not Answered <b id="c-na"></b></span>
+        <span><i class="pal an"></i> Answered <b id="c-an"></b></span>
+        <span><i class="pal mr"></i> Marked <b id="c-mr"></b></span>
+      </div>
+      <div class="muted small">Question Palette</div>
+      <div id="palette"></div>
+      <button id="btn-submit" class="btn primary wide">Submit Exam</button>
+    </aside>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result-view" class="screen hidden">
+  <div class="container panel center-text">
+    <h2>Exam Submitted Successfully</h2>
+    <div id="result-card"></div>
+    <button id="result-home" class="btn primary">Back to Dashboard</button>
+  </div>
+</section>
+
+<!-- CONFIRM MODAL -->
+<div id="modal" class="modal hidden"><div class="modal-box">
+  <h3>Submit Exam?</h3><div id="modal-summary"></div>
+  <p class="muted small">Once submitted, you cannot change your answers.</p>
+  <button id="modal-cancel" class="btn light">Go Back</button>
+  <button id="modal-ok" class="btn primary">Yes, Submit</button>
+</div></div>
+<script src="app.js"></script>
+</body>
+</html>

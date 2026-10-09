@@ -1,121 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Online Examination Portal</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div id="topbar">
-  <div class="brand">🎓 <b>ExamPortal</b> <span>Online Examination System</span></div>
-  <div id="userbar" class="hidden"><span id="who"></span><button id="logout" class="btn light">Logout</button></div>
-</div>
-
-<!-- LOGIN -->
-<section id="login-view" class="screen center">
-  <div class="login-box">
-    <h2>Candidate Login</h2>
-    <p class="muted">Enter your credentials to access the examination portal</p>
-    <label>Username</label><input id="username" autocomplete="off">
-    <label>Password</label><input id="password" type="password">
-    <button id="login-btn" class="btn primary wide">Sign In</button>
-    <p id="login-err" class="err"></p>
-  </div>
-</section>
-
-<!-- DASHBOARD -->
-<section id="home-view" class="screen hidden">
-  <div class="container">
-    <h2>Scheduled Examinations</h2><div id="exam-list"></div>
-    <h2>Result History</h2><div id="results"></div>
-    <div id="admin-panel" class="hidden panel">
-      <h2>Admin: Create Examination</h2>
-      <input id="ex-title" placeholder="Exam title">
-      <input id="ex-duration" type="number" placeholder="Duration (minutes)">
-      <p class="muted small">Questions JSON: [{"q":"2+2?","options":["3","4"],"answer":1}]</p>
-      <textarea id="ex-questions" rows="5"></textarea>
-      <button id="create-exam" class="btn primary">Create Exam</button> <span id="admin-msg"></span>
-    </div>
-  </div>
-</section>
-
-<!-- INSTRUCTIONS -->
-<section id="instr-view" class="screen hidden">
-  <div class="container panel">
-    <h2 id="instr-title"></h2>
-    <p class="muted" id="instr-meta"></p>
-    <h3>General Instructions</h3>
-    <ol>
-      <li>The clock is set on the server. The countdown timer at the top right shows remaining time. The exam <b>auto-submits</b> when time ends.</li>
-      <li>The question palette on the right shows the status of each question:</li>
-    </ol>
-    <div class="legend big">
-      <span><i class="pal nv"></i> Not Visited</span><span><i class="pal na"></i> Not Answered</span>
-      <span><i class="pal an"></i> Answered</span><span><i class="pal mr"></i> Marked for Review</span>
-    </div>
-    <ol start="3">
-      <li>Select one option and click <b>Save &amp; Next</b> to save your answer.</li>
-      <li>Use <b>Mark for Review &amp; Next</b> to revisit a question later.</li>
-      <li>Do <b>not switch tabs or windows</b>. Every switch is recorded. After <b>3 violations</b> the exam is submitted automatically.</li>
-      <li>Right-click, copy and paste are disabled during the exam.</li>
-    </ol>
-    <label class="agree"><input type="checkbox" id="agree"> I have read and understood the instructions and agree to follow the exam rules.</label><br>
-    <button id="back-home" class="btn light">Back</button>
-    <button id="begin-btn" class="btn primary" disabled>Begin Exam</button>
-  </div>
-</section>
-
-<!-- EXAM -->
-<section id="exam-view" class="screen hidden">
-  <div class="exam-head">
-    <div><b id="exam-title"></b><div class="muted small" id="exam-sub"></div></div>
-    <div class="timer-box">Time Left<div id="timer">00:00</div></div>
-  </div>
-  <div id="warn" class="warn hidden"></div>
-  <div class="exam-body">
-    <div class="q-panel">
-      <div class="q-head"><b id="q-no"></b><span id="q-flag" class="flag hidden">Marked for Review</span></div>
-      <div id="q-text" class="q-text"></div>
-      <div id="q-options"></div>
-      <div class="q-actions">
-        <button id="btn-mark" class="btn purple">Mark for Review &amp; Next</button>
-        <button id="btn-clear" class="btn light">Clear Response</button>
-        <span class="spacer"></span>
-        <button id="btn-prev" class="btn light">&laquo; Previous</button>
-        <button id="btn-save" class="btn green">Save &amp; Next</button>
-      </div>
-    </div>
-    <aside class="side">
-      <div class="cand"><div class="avatar">👤</div><div><b id="cand-name"></b><div class="muted small">Candidate</div></div></div>
-      <div class="legend">
-        <span><i class="pal nv"></i> Not Visited <b id="c-nv"></b></span>
-        <span><i class="pal na"></i> Not Answered <b id="c-na"></b></span>
-        <span><i class="pal an"></i> Answered <b id="c-an"></b></span>
-        <span><i class="pal mr"></i> Marked <b id="c-mr"></b></span>
-      </div>
-      <div class="muted small">Question Palette</div>
-      <div id="palette"></div>
-      <button id="btn-submit" class="btn primary wide">Submit Exam</button>
-    </aside>
-  </div>
-</section>
-
-<!-- RESULT -->
-<section id="result-view" class="screen hidden">
-  <div class="container panel center-text">
-    <h2>Exam Submitted Successfully</h2>
-    <div id="result-card"></div>
-    <button id="result-home" class="btn primary">Back to Dashboard</button>
-  </div>
-</section>
-
-<!-- CONFIRM MODAL -->
-<div id="modal" class="modal hidden"><div class="modal-box">
-  <h3>Submit Exam?</h3><div id="modal-summary"></div>
-  <p class="muted small">Once submitted, you cannot change your answers.</p>
-  <button id="modal-cancel" class="btn light">Go Back</button>
-  <button id="modal-ok" class="btn primary">Yes, Submit</button>
-</div></div>
-<script src="app.js"></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Online Exam Portal</title>
+<style>
+:root{--bg:#f1f5f9;--card:#fff;--tx:#0f172a;--mu:#64748b;--pr:#4f46e5;--ok:#16a34a;--bad:#dc2626;--warn:#f59e0b;--bd:#e2e8f0}
+body.dark{--bg:#0f172a;--card:#1e293b;--tx:#f1f5f9;--mu:#94a3b8;--bd:#334155}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--tx)}
+header{display:flex;align-items:center;gap:14px;padding:12px 24px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+nav{display:flex;gap:6px;margin-left:16px}nav a{cursor:pointer;padding:6px 12px;border-radius:8px;text-transform:capitalize;color:var(--mu)}nav a:hover{background:var(--bg);color:var(--tx)}
+.sp{flex:1}main{max-width:1000px;margin:24px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;box-shadow:0 1px 3px #0001}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:14px 0}
+.stat{text-align:center;color:var(--mu)}.stat span{display:block;font-size:30px;font-weight:700;color:var(--pr)}
+button{background:var(--pr);color:#fff;border:0;padding:9px 16px;border-radius:9px;cursor:pointer;font-size:14px}button:hover{opacity:.9}button:disabled{opacity:.4;cursor:not-allowed}
+button.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd)}button.ok{background:var(--ok)}button.warn{background:var(--warn)}button.bad{background:var(--bad)}
+input,select{width:100%;padding:10px 12px;margin:6px 0;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);font-size:14px}
+.auth{max-width:380px;margin:60px auto}.auth button{width:100%;margin-top:8px}a{color:var(--pr);cursor:pointer}
+.mu{color:var(--mu)}.small{font-size:12px}.row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.tag{background:var(--bg);padding:2px 10px;border-radius:20px;font-size:12px;color:var(--mu)}
+.exhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.timer{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--pr)}.timer.low{color:var(--bad);animation:bl 1s infinite}@keyframes bl{50%{opacity:.4}}
+.bar{height:6px;background:var(--bd);border-radius:6px;margin-bottom:14px}.bar i{display:block;height:100%;background:var(--ok);border-radius:6px;transition:width .3s}
+.exgrid{display:grid;grid-template-columns:2fr 1fr;gap:14px}@media(max-width:760px){.exgrid{grid-template-columns:1fr}nav{display:none}}
+.opt{display:flex;gap:10px;align-items:center;padding:12px;margin:8px 0;border:1px solid var(--bd);border-radius:10px;cursor:pointer}.opt:hover{border-color:var(--pr)}.opt.sel{border-color:var(--pr);background:#4f46e51a}.opt input{width:auto;margin:0}
+.pal{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.pb{background:var(--bg);color:var(--tx);border:1px solid var(--bd);padding:8px 0}
+.pb.an{background:var(--ok);color:#fff}.pb.mk{background:var(--warn);color:#fff}.pb.cur{outline:2px solid var(--pr)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--bd);margin:0 4px 0 8px}.dot.an{background:var(--ok)}.dot.mk{background:var(--warn)}
+.ring{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;margin:10px auto}.ring div{width:112px;height:112px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:28px;font-weight:700}
+table{width:100%;border-collapse:collapse}th,td{padding:10px;text-align:left;border-bottom:1px solid var(--bd)}th{color:var(--mu);font-size:13px}
+.rv{border-left:4px solid var(--bd);padding:8px 14px;margin:10px 0}.rv.g{border-color:var(--ok)}.rv.r{border-color:var(--bad)}
+.pass{color:var(--ok)}.fail{color:var(--bad)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#111;color:#fff;padding:10px 18px;border-radius:10px;transition:.3s}#toast.show{transform:translateX(-50%)}
+@media print{header,button,#toast{display:none}}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mk=(t,s,m,qs)=>({id:Math.random().toString(36).slice(2,8),title:t,subject:s,mins:m,q:qs.map(a=>({t:a[0],o:a[1],c:a[2]}))});
+function seed(){return[
+mk('DevOps Basics','DevOps',5,[
+['What does CI stand for?',['Continuous Integration','Code Inspection','Container Image','Central Index'],0],
+['Which tool is used to containerize apps?',['Git','Docker','Jira','Grafana'],1],
+['Which file defines a GitHub Actions workflow?',['Dockerfile','ci.yml','pom.xml','app.js'],1],
+['Prometheus is mainly used for?',['Monitoring','Version control','UI design','Testing'],0],
+['Docker Compose is used to?',['Run multi-container apps','Write unit tests','Edit images','Manage sprints'],0]]),
+mk('Agile & Scrum','Agile',5,[
+['A Sprint usually lasts?',['1-4 weeks','6 months','1 day','1 year'],0],
+['Who owns the Product Backlog?',['Product Owner','Tester','Client','Designer'],0],
+['Daily Scrum is also called?',['Standup','Retrospective','Review','Planning'],0],
+['Popular tool for sprint boards?',['Jira','Docker','Nginx','Prometheus'],0],
+['User story format starts with?',['As a ... I want ...','Given ... When ...','If ... Then ...','Select ... From ...'],0]]),
+mk('Web Fundamentals','Web',5,[
+['HTTP status 404 means?',['Not Found','OK','Server Error','Forbidden'],0],
+['CSS is used for?',['Styling','Database','Routing','Testing'],0],
+['Express.js runs on?',['Node.js','Python','Java','PHP'],0],
+['JSON stands for?',['JavaScript Object Notation','Java Source Object Name','Joint Syntax Order Net','None'],0],
+['Which method sends data to server?',['POST','TRACE','HEAD','NONE'],0]])]}
+let users=LS.get('users',null)||[{u:'admin',p:'admin123',role:'admin',name:'Admin'}];LS.set('users',users);
+let exams=LS.get('exams',null)||seed();LS.set('exams',exams);
+let results=LS.get('results',[]),me=LS.get('me',null),ex=null,qi=0,ans=[],mark=[],left=0,tm=null,warns=0;
+if(LS.get('dark',false))document.body.classList.add('dark');
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function toast(m){const t=$('#toast');if(!t)return;t.textContent=m;t.className='show';setTimeout(()=>t.className='',2500)}
+function dark(){document.body.classList.toggle('dark');LS.set('dark',document.body.classList.contains('dark'))}
+function shell(h,nav=true){$('#app').innerHTML=`<header><b>🎓 ExamPortal</b>${nav&&me?`<nav>${['dashboard','history','board'].concat(me.role=='admin'?['admin']:[]).map(v=>`<a onclick="go('${v}')">${v}</a>`).join('')}</nav><span class="sp"></span><span class="mu">${esc(me.name)}</span><button class="ghost" onclick="dark()">🌓</button><button class="ghost" onclick="logout()">Logout</button>`:'<span class="sp"></span><button class="ghost" onclick="dark()">🌓</button>'}</header><main>${h}</main><div id="toast"></div>`}
+function auth(reg){shell(`<div class="card auth"><h2>${reg?'Create account':'Welcome back'}</h2><p class="mu">Online Examination System</p>${reg?'<input id="n" placeholder="Full name">':''}<input id="u" placeholder="Username"><input id="p" type="password" placeholder="Password"><button onclick="${reg?'doReg()':'doLogin()'}">${reg?'Register':'Login'}</button><p class="mu">${reg?'Have an account?':'New here?'} <a onclick="auth(${!reg})">${reg?'Login':'Register'}</a></p>${reg?'':'<p class="mu small">Demo admin: admin / admin123</p>'}</div>`,false)}
+function doLogin(){const u=users.find(x=>x.u==$('#u').value.trim()&&x.p==$('#p').value);if(!u)return toast('Wrong username or password');me=u;LS.set('me',me);go('dashboard')}
+function doReg(){const n=$('#n').value.trim(),u=$('#u').value.trim(),p=$('#p').value;if(!n||!u||p.length<4)return toast('Fill all fields (password min 4)');if(users.some(x=>x.u==u))return toast('Username taken');users.push({u,p,name:n,role:'student'});LS.set('users',users);toast('Registered! Login now');auth(false)}
+function logout(){me=null;LS.set('me',null);auth(false)}
+function dashboard(){const m=results.filter(r=>r.user==me.u),avg=m.length?Math.round(m.reduce((a,r)=>a+r.pct,0)/m.length):0,best=m.length?Math.max(...m.map(r=>r.pct)):0;
+shell(`<h2>Hi, ${esc(me.name)} 👋</h2><div class="grid"><div class="card stat"><span>${m.length}</span>Attempts</div><div class="card stat"><span>${avg}%</span>Average</div><div class="card stat"><span>${best}%</span>Best score</div><div class="card stat"><span>${exams.length}</span>Exams</div></div><input id="sr" placeholder="🔍 Search exams..." oninput="filt()"><div class="grid" id="list"></div>`);filt()}
+function filt(){const q=($('#sr')?.value||'').toLowerCase();$('#list').innerHTML=exams.filter(e=>(e.title+e.subject).toLowerCase().includes(q)).map(e=>{const b=results.filter(r=>r.user==me.u&&r.examId==e.id).map(r=>r.pct);return`<div class="card"><span class="tag">${esc(e.subject)}</span><h3>${esc(e.title)}</h3><p class="mu small">${e.q.length} questions · ${e.mins} min${b.length?' · Best '+Math.max(...b)+'%':''}</p><button onclick="intro('${e.id}')">Start exam</button></div>`}).join('')||'<p class="mu">No exams found</p>'}
+function intro(id){const e=exams.find(x=>x.id==id);if(!e.q.length)return toast('No questions yet');shell(`<div class="card"><h2>${esc(e.title)}</h2><p>${e.q.length} questions · ${e.mins} minutes · +1 mark each</p><ul class="mu"><li>Timer start hone ke baad rukta nahi, time khatam = auto submit</li><li>Tab switch 3 baar = auto submit</li><li>Shortcuts: 1-4 option, ← → navigate</li></ul><div class="row"><button class="ghost" onclick="go('dashboard')">Back</button><button class="ok" onclick="begin('${id}')">I'm ready, Begin</button></div></div>`)}
+function begin(id){ex=exams.find(x=>x.id==id);qi=0;ans=Array(ex.q.length).fill(null);mark=Array(ex.q.length).fill(false);left=ex.mins*60;warns=0;tm=setInterval(()=>{left--;const t=$('#tm');if(t){t.textContent=fmt(left);if(left<60)t.classList.add('low')}if(left<=0)submit(true)},1000);showQ()}
+function showQ(){const q=ex.q[qi],n=ex.q.length,done=ans.filter(a=>a!==null).length;
+shell(`<div class="exhead"><div><b>${esc(ex.title)}</b><div class="mu small">Question ${qi+1} of ${n} · Answered ${done}</div></div><div id="tm" class="timer ${left<60?'low':''}">${fmt(left)}</div></div><div class="bar"><i style="width:${done/n*100}%"></i></div>
+<div class="exgrid"><div class="card"><h3>${qi+1}. ${esc(q.t)}</h3>${q.o.map((o,i)=>`<label class="opt ${ans[qi]===i?'sel':''}"><input type="radio" name="o" ${ans[qi]===i?'checked':''} onchange="pick(${i})"> ${esc(o)}</label>`).join('')}
+<div class="row"><button class="ghost" onclick="step(-1)" ${qi==0?'disabled':''}>← Prev</button><button class="ghost" onclick="clr()">Clear</button><button class="warn" onclick="flag()">${mark[qi]?'Unmark':'Mark for review'}</button><span class="sp"></span>${qi<n-1?'<button onclick="step(1)">Next →</button>':'<button class="ok" onclick="fin()">Submit</button>'}</div></div>
+<div class="card"><b>Question palette</b><div class="pal">${ex.q.map((_,i)=>`<button class="pb ${i==qi?'cur':''} ${mark[i]?'mk':ans[i]!==null?'an':''}" onclick="jump(${i})">${i+1}</button>`).join('')}</div><p class="small mu"><span class="dot an"></span>Answered<span class="dot mk"></span>Review<span class="dot"></span>Pending</p><button class="ok" style="width:100%" onclick="fin()">Finish exam</button></div></div>`,false)}
+const pick=i=>{ans[qi]=i;showQ()},clr=()=>{ans[qi]=null;showQ()},flag=()=>{mark[qi]=!mark[qi];showQ()},jump=i=>{qi=i;showQ()},step=d=>{qi=Math.max(0,Math.min(ex.q.length-1,qi+d));showQ()};
+function fin(){const un=ans.filter(a=>a===null).length,mk2=mark.filter(Boolean).length;if(confirm(`Unanswered: ${un}\nMarked for review: ${mk2}\n\nSubmit exam?`))submit(false)}
+function submit(auto){clearInterval(tm);tm=null;const n=ex.q.length,score=ex.q.reduce((s,q,i)=>s+(ans[i]===q.c?1:0),0),pct=Math.round(score/n*100);
+const r={id:Date.now(),user:me.u,name:me.name,exam:ex.title,examId:ex.id,score,total:n,pct,date:new Date().toLocaleString(),used:ex.mins*60-Math.max(left,0),warns,snap:ex.q.map((q,i)=>({t:q.t,o:q.o,c:q.c,a:ans[i]}))};
+results.push(r);LS.set('results',results);ex=null;showResult(r,auto)}
+function showResult(r,auto){const ok=r.pct>=40;shell(`${auto?'<div class="card" style="border-color:var(--warn)">⏱ Exam auto-submitted</div>':''}<div class="card" style="text-align:center;margin-top:12px"><h2>${esc(r.exam)}</h2><div class="ring" style="background:conic-gradient(${ok?'var(--ok)':'var(--bad)'} ${r.pct*3.6}deg,var(--bd) 0)"><div>${r.pct}%</div></div><h3 class="${ok?'pass':'fail'}">${ok?'PASS ✅':'FAIL ❌'} — ${r.score}/${r.total}</h3><p class="mu small">${esc(r.name)} · ${r.date} · Time ${fmt(r.used)} · Warnings ${r.warns}</p><div class="row" style="justify-content:center"><button onclick="go('dashboard')">Dashboard</button><button class="ghost" onclick="window.print()">🖨 Print</button></div></div><h3>Answer review</h3>${r.snap.map((q,i)=>`<div class="rv ${q.a===q.c?'g':'r'}"><b>${i+1}. ${esc(q.t)}</b><br>Your answer: ${q.a===null?'<i>Not answered</i>':esc(q.o[q.a])}<br>Correct: <b>${esc(q.o[q.c])}</b></div>`).join('')}`)}
+function hist(){const m=results.filter(r=>r.user==me.u).reverse();shell(`<h2>My History</h2><div class="card">${m.length?`<table><tr><th>Exam</th><th>Score</th><th>%</th><th>Date</th><th></th></tr>${m.map(r=>`<tr><td>${esc(r.exam)}</td><td>${r.score}/${r.total}</td><td class="${r.pct>=40?'pass':'fail'}">${r.pct}%</td><td>${r.date}</td><td><a onclick="showResult(results.find(x=>x.id==${r.id}))">View</a></td></tr>`).join('')}</table>`:'<p class="mu">No attempts yet</p>'}</div>`)}
+function board(){const m={};results.forEach(r=>{(m[r.user]=m[r.user]||{n:r.name,s:0,c:0,b:0});m[r.user].s+=r.pct;m[r.user].c++;m[r.user].b=Math.max(m[r.user].b,r.pct)});const a=Object.values(m).map(x=>({...x,avg:Math.round(x.s/x.c)})).sort((x,y)=>y.avg-x.avg);
+shell(`<h2>🏆 Leaderboard</h2><div class="card">${a.length?`<table><tr><th>#</th><th>Name</th><th>Attempts</th><th>Avg</th><th>Best</th></tr>${a.map((x,i)=>`<tr><td>${['🥇','🥈','🥉'][i]||i+1}</td><td>${esc(x.n)}</td><td>${x.c}</td><td>${x.avg}%</td><td>${x.b}%</td></tr>`).join('')}</table>`:'<p class="mu">No data yet</p>'}</div>`)}
+function adm(){shell(`<h2>Admin Panel</h2><div class="grid" style="grid-template-columns:1fr 1fr"><div class="card"><h3>Add exam</h3><input id="et" placeholder="Title"><input id="es" placeholder="Subject"><input id="em" type="number" placeholder="Duration (minutes)"><button onclick="addExam()">Add exam</button></div>
+<div class="card"><h3>Add question</h3><select id="qe">${exams.map(e=>`<option value="${e.id}">${esc(e.title)}</option>`).join('')}</select><input id="qt" placeholder="Question"><input id="o0" placeholder="Option 1"><input id="o1" placeholder="Option 2"><input id="o2" placeholder="Option 3"><input id="o3" placeholder="Option 4"><select id="qc"><option value="0">Correct: Option 1</option><option value="1">Correct: Option 2</option><option value="2">Correct: Option 3</option><option value="3">Correct: Option 4</option></select><button onclick="addQ()">Add question</button></div></div>
+<div class="card"><h3>Exams</h3><table>${exams.map(e=>`<tr><td>${esc(e.title)}</td><td>${e.q.length} Q</td><td>${e.mins} min</td><td><a onclick="delExam('${e.id}')">Delete</a></td></tr>`).join('')}</table></div>
+<div class="card" style="margin-top:14px"><b>${users.length}</b> users · <b>${results.length}</b> attempts <div class="row"><button class="ghost" onclick="csv()">⬇ Export CSV</button><button class="bad" onclick="if(confirm('Reset ALL data?')){localStorage.clear();location.reload()}">Reset data</button></div></div>`)}
+function addExam(){const t=$('#et').value.trim(),s=$('#es').value.trim(),m=+$('#em').value;if(!t||!s||m<1)return toast('Fill all fields');exams.push({id:Math.random().toString(36).slice(2,8),title:t,subject:s,mins:m,q:[]});LS.set('exams',exams);adm();toast('Exam added')}
+function addQ(){const o=[0,1,2,3].map(i=>$('#o'+i).value.trim()),t=$('#qt').value.trim();if(!t||o.some(x=>!x))return toast('Fill question + 4 options');exams.find(e=>e.id==$('#qe').value).q.push({t,o,c:+$('#qc').value});LS.set('exams',exams);adm();toast('Question added')}
+function delExam(id){if(confirm('Delete exam?')){exams=exams.filter(e=>e.id!=id);LS.set('exams',exams);adm()}}
+function csv(){const rows=[['User','Exam','Score','Total','Percent','Date']].concat(results.map(r=>[r.name,r.exam,r.score,r.total,r.pct,r.date]));const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n')],{type:'text/csv'}));a.download='results.csv';a.click()}
+const V={dashboard,history:hist,board,admin:adm},go=v=>V[v]();
+document.addEventListener('visibilitychange',()=>{if(ex&&tm&&!document.hidden){warns++;toast(`⚠ Tab switch detected (${warns}/3)`);if(warns>=3)submit(true)}});
+document.addEventListener('keydown',e=>{if(e.key=='Enter'&&$('.auth button'))return $('.auth button').click();if(!ex||!tm)return;if('1234'.includes(e.key)&&+e.key<=ex.q[qi].o.length)pick(+e.key-1);if(e.key=='ArrowRight')step(1);if(e.key=='ArrowLeft')step(-1)});
+me?dashboard():auth(false);
+</script></body></html>
