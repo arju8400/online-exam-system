@@ -76,4 +76,5 @@ jobs:
       - name: Check live app is up
         run: |
           sleep 30
-          curl --fail --retry 12 --retry-delay 15 --retry-all-errors https://online-exam-system-1-jxz6.onrender.com/healthcd
+          curl --fail --retry 12 --retry-delay 15 --retry-all-errors https://online-exam-system-1-jxz6.onrender.com/cd
+
