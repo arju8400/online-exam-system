@@ -558,3 +558,5 @@ git push
 - EXAM-5: CI/CD pipeline and Prometheus/Grafana monitor
 - EXAM-2: exam timer with auto-submit
 -  main
+
+- EXAM-1: login flow documented
