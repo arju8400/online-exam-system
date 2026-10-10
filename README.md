@@ -553,3 +553,5 @@ git push
 | *(add teammate)* | *(add GitHub)* | *(add role)* |
 
 *College DevOps Mini Project — Online Examination System.*
+
+- EXAM-2: exam timer with auto-submit
